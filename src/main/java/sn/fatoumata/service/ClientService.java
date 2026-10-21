@@ -5,17 +5,18 @@ import java.sql.SQLException;
 
 import sn.fatoumata.dao.ClientDao;
 import sn.fatoumata.model.Client;
+import sn.fatoumata.util.VerifChaine;
 
 public class ClientService {
     public void ajouter(String nom, String prenom, String email) throws IOException, SQLException {
-        if (nom == null || nom.isBlank()) {
+        if (VerifChaine.isNullOrBlank(nom)) {
             throw new IllegalArgumentException("Le nom est obigatoire.");
         }
-        if (prenom == null || prenom.isBlank()) {
+        if (VerifChaine.isNullOrBlank(prenom)) {
             throw new IllegalArgumentException("Le prenom est obigatoire.");
         }
 
-        String emailNettoye = (email == null || email.isBlank()) ? null : email.trim();
+        String emailNettoye = (VerifChaine.isNullOrBlank(email)) ? null : email.trim();
         Client c = new Client(nom.trim(), prenom.trim(), emailNettoye);
         ClientDao dao = new ClientDao();
         dao.creer(c);
